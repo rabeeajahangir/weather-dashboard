@@ -94,8 +94,10 @@ fetch("https://api.openweathermap.org/data/2.5/onecall?&appid=f8d11b4cf79d3c3e9c
     var uvindexEl = $("<p id='uvindex'>").text("UV Index: " + response.current.uvi);
     currentWeatherDiv.append(uvindexEl);
     $('#currentweather').html(currentWeatherDiv);
-    //change text color based on UV index in Canada (https://www.canada.ca/en/environment-climate-change/services/weather-health/uv-index-sun-safety.html)
-    var uvindex = response.current.uvi;
+
+// THEN I am presented with a color that indicates whether the conditions are favorable, moderate, or severe/
+
+var uvindex = response.current.uvi;
     
     if (uvindex < 3){
         $("#uvindex").css("color", "green");
@@ -109,7 +111,6 @@ fetch("https://api.openweathermap.org/data/2.5/onecall?&appid=f8d11b4cf79d3c3e9c
 })  
 
 });
-// THEN I am presented with a color that indicates whether the conditions are favorable, moderate, or severe
 // WHEN I view future weather conditions for that city
 // THEN I am presented with a 5-day forecast that displays the date, an icon representation of weather conditions, the temperature, the wind speed, and the humidity
 
@@ -124,7 +125,7 @@ fetch("https://api.openweathermap.org/data/2.5/forecast?q=" +
             
             var results = response.list;
             $("#fiveday").empty();
-            //create the cards for the five day forcast
+            
             for (var i = 0; i < results.length; i +=8){
 
             var fivedaycard = $("<div class='card shadow-lg text-white bg-primary mx-auto mb-10 p-2' style='width: 8.5rem; height: 11rem;'>");
@@ -169,3 +170,39 @@ fetch("https://api.openweathermap.org/data/2.5/forecast?q=" +
 
 // WHEN I click on a city in the search history
 // THEN I am again presented with current and future conditions for that city
+previousSearch ();
+
+$("#searchbtn").on("click", function(event){
+    //prevent button from submitting form
+    event.preventDefault();
+    //store the name of the city to search
+    var searchCityEl = document.querySelector("#cityname").value;
+    
+    console.log(searchCityEl);
+    
+    //save search result to localstorage
+
+    
+    var storearray = [];
+    storearray.push(searchCityEl);
+    localStorage.setItem('cityname', JSON.stringify(storearray));
+
+    searchCityWeather(searchCityEl);
+    previousSearch ();
+});
+
+function previousSearch () {
+    var lastSearch = JSON.parse(localStorage.getItem('cityname'));
+    var lastSearchBtns = $("<button class='btn btn-secondary'>").text(lastSearch);
+
+    var lastSearchList = $("#recent");
+    lastSearchList.append(lastSearchBtns)
+    $("#recenthistory").prepend(lastSearchList);
+}
+
+//get weather for recently searched items
+
+$("#recenthistory").on("click", '.btn', function(event){
+    event.preventDefault();
+    searchCityWeather($(this).text());
+});

@@ -1,0 +1,21 @@
+:root{
+    --secondarybtn-color:rgba(230, 230, 233, 0.801);
+    
+}
+.container{
+    width:100%;
+}
+.header{
+    background-image: linear-gradient(to right,#0d6efd , rgb(3, 2, 85));
+    text-align: center;
+    color: white;
+    font-family: sans-serif;
+}
+
+hr.solid {
+    border-top: 3px solid rgba(187, 187, 187, 0.37);
+  }
+ 
+.btn-primary {
+    height: 50px;
+}
