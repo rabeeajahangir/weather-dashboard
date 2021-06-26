@@ -19,3 +19,13 @@ hr.solid {
 .btn-primary {
     height: 50px;
 }
+
+.fivedayforcast{
+    padding-top: 10px;
+}
+
+.btn-secondary{
+    background-color: var(--secondarybtn-color);
+    color: black;
+    font-weight: bold;
+}
